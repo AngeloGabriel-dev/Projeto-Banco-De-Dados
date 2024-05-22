@@ -57,10 +57,35 @@ edificios = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 finall = 99
 final_cursos = 9
 final_disciplinas = 199
-final_departamento = 9
+final_departamento_curso = 9
+
+
+def cria_departamentos_cursos_sql():
+    global final_departamento_curso
+
+    if(final_departamento_curso > 0):
+        aleatorio_departamento_curso = randint(0, final_departamento_curso)
+
+    try:
+     dept_nome = departamentos.pop(aleatorio_departamento_curso)
+     orcamento = round(uniform(10000, 100000), 2)
+     edificio = edificios.pop(aleatorio_departamento_curso)
+
+     print(f"\ninsert into departamento(dept_nome, orcamento, edificio) values ('{dept_nome}', '{orcamento}', '{edificio}');\n")
+
+     id_curso = ids_curso.pop(aleatorio_departamento_curso)
+     titulo = cursos.pop(aleatorio_departamento_curso)
+     
+     print(f"\ninsert into curso(id_curso, dept_nome, titulo) values ('{id_curso}', '{dept_nome}', '{titulo}');\n")
+    except:
+       print("Todos os departamentos/cursos já foram inseridos!\n")
+    
+    final_departamento_curso -= 1
+
+#-----------------------------------------------------------------------------------------------------------------------------------
 
 def cria_tabelas_sql(final_cursos=final_cursos, final_disciplinas = final_disciplinas):
-    global finall, final_departamento
+    global finall
 
     if(finall > 0):
         aleatorio = randint(0, finall)
@@ -68,79 +93,63 @@ def cria_tabelas_sql(final_cursos=final_cursos, final_disciplinas = final_discip
     aleatorio_cursos = randint(0, final_cursos)
     aleatorio_disciplinas = randint(0, final_disciplinas)
 
-    if(final_departamento > 0):
-        aleatorio_departamento = randint(0, final_departamento)
+    dept_nome = departamentos_ap[aleatorio_cursos]
+    id = ids.pop(aleatorio)
+    nome = nomes_p.pop(aleatorio)
+    salario = round(uniform(5000, 20000), 2)
+    eh_chefe = choice([True, False])
 
-    try:
-     dept_nome = departamentos.pop(aleatorio_departamento)
-     orcamento = round(uniform(10000, 100000), 2)
-     edificio = edificios.pop(aleatorio_departamento)
+    print(f"insert into professor(id, nome, dept_nome, salario, eh_chefe) values ('{id}', '{nome}', '{dept_nome}', '{salario}', {eh_chefe});\n")
 
-     print(f"\ninsert into departamento(dept_nome, orcamento, edificio) values ('{dept_nome}', '{orcamento}', '{edificio}');\n")
-    except:
-       print("Todos os departamentos já foram inseridos!\n")
-    finally:
-        dept_nome = departamentos_ap[aleatorio_cursos]
-        id = ids.pop(aleatorio)
-        nome = nomes_p.pop(aleatorio)
-        salario = round(uniform(5000, 20000), 2)
-        eh_chefe = choice([True, False])
+    aleatorio = randint(0, finall)
+    tcc_id = tcc_ids.pop(aleatorio)
+    print(f"insert into grupo_tcc(tcc_id, id) values ('{tcc_id}', '{id}');\n")
 
-        print(f"insert into professor(id, nome, dept_nome, salario, eh_chefe) values ('{id}', '{nome}', '{dept_nome}', '{salario}', {eh_chefe});\n")
+    aleatorio = randint(0, finall)
+    ra = ras.pop(aleatorio)
+    dept_nome = departamentos_ap[aleatorio_cursos]
+    nome = nomes_a.pop(aleatorio)   
 
-        aleatorio = randint(0, finall)
-        tcc_id = tcc_ids.pop(aleatorio)
-        print(f"insert into grupo_tcc(tcc_id, id) values ('{tcc_id}', '{id}');\n")
+    print(f"insert into aluno(ra, dept_nome, nome, tcc_id) values ('{ra}', '{dept_nome}', '{nome}', '{tcc_id}');\n")
 
-        aleatorio = randint(0, finall)
-        ra = ras.pop(aleatorio)
-        dept_nome = departamentos_ap[aleatorio_cursos]
-        nome = nomes_a.pop(aleatorio)   
-
-        print(f"insert into aluno(ra, dept_nome, nome, tcc_id) values ('{ra}', '{dept_nome}', '{nome}', '{tcc_id}');\n")
-
-        print(f"insert into orientado(p_id, a_ra) values ('{id}', '{ra}');\n")
+    print(f"insert into orientado(p_id, a_ra) values ('{id}', '{ra}');\n")
     
-        id_historico_a = ids_historico_a.pop(aleatorio)
+    id_historico_a = ids_historico_a.pop(aleatorio)
 
-        print(f"insert into historico_aluno(id_historico_a, ra) values ('{id_historico_a}', '{ra}');\n")
+    print(f"insert into historico_aluno(id_historico_a, ra) values ('{id_historico_a}', '{ra}');\n")
     
-        id_historico_p = ids_historico_p.pop(aleatorio)
+    id_historico_p = ids_historico_p.pop(aleatorio)
 
-        print(f"insert into historico_professor(id_historico_p, id) values ('{id_historico_p}', '{id}');\n")
-        try:
-            id_curso = ids_curso.pop(aleatorio_departamento)
-            titulo = cursos[aleatorio_departamento]
-            print(f"insert into curso(id_curso, dept_nome, titulo) values ('{id_curso}', '{dept_nome}', '{titulo}');\n")
-        except:
-            print("Todos os cursos já foram inseridos!\n")
-        finally:
+    print(f"insert into historico_professor(id_historico_p, id) values ('{id_historico_p}', '{id}');\n")
     
-            id_disciplina = ids_disciplina[aleatorio_disciplinas]
-            nome = disciplinas[aleatorio_disciplinas]
+    id_disciplina = ids_disciplina[aleatorio_disciplinas]
+    nome = disciplinas[aleatorio_disciplinas]
 
-            print(f"insert into disciplina(id_disciplina, nome) values ('{id_disciplina}', '{nome}');\n")
+    print(f"insert into disciplina(id_disciplina, nome) values ('{id_disciplina}', '{nome}');\n")
 
-            id_curso_matriz = ids_curso_matriz[aleatorio_cursos]
+    id_curso_matriz = ids_curso_matriz[aleatorio_cursos]
 
-            print(f"insert into matriz_curricular(id_curso, id_disciplina) values ('{id_curso_matriz}', '{id_disciplina}');\n")
+    print(f"insert into matriz_curricular(id_curso, id_disciplina) values ('{id_curso_matriz}', '{id_disciplina}');\n")
 
-            id_historico = id_historico_a
-            semestre = choice([1, 2])
-            ano = randint(1990, 2024)
-            media = randint(0, 10)
+    id_historico = id_historico_a
+    semestre = choice([1, 2])
+    ano = randint(1990, 2024)
+    media = randint(0, 10)
 
-            print(f"insert into estudou(id_historico, id_disciplina, semestre, ano, media) values ('{id_historico}', '{id_disciplina}', '{semestre}', '{ano}', '{media}');\n")
+    print(f"insert into estudou(id_historico, id_disciplina, semestre, ano, media) values ('{id_historico}', '{id_disciplina}', '{semestre}', '{ano}', '{media}');\n")
 
-            id_historico = id_historico_p
+    id_historico = id_historico_p
 
-            print(f"insert into lecionou(id_historico, id_disciplina, semestre, ano) values ('{id_historico}', '{id_disciplina}', '{semestre}', '{ano}');\n")
-            finall -= 1
-            final_departamento -= 1
+    print(f"insert into lecionou(id_historico, id_disciplina, semestre, ano) values ('{id_historico}', '{id_disciplina}', '{semestre}', '{ano}');\n")
+    finall -= 1
 
 for x in range(10):
+    cria_departamentos_cursos_sql()
     print("--" * 60)
-    print(f"\nConjunto de instrucoes {x+1}: \n")
+    print("--" * 60)
+    
+for y in range(10):
+    print("--" * 60)
+    print(f"Conjunto de Instruções {y+1}")
     print("--" * 60)
     cria_tabelas_sql()
-    
