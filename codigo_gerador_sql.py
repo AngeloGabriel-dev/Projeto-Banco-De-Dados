@@ -143,10 +143,13 @@ def cria_tabelas_sql(final_cursos=final_cursos, final_disciplinas = final_discip
     print(f"insert into lecionou(id_historico, id_disciplina, semestre, ano) values ('{id_historico}', '{id_disciplina}', '{semestre}', '{ano}');\n")
     finall -= 1
 
+
+print("--" * 60)
+print(f"Conjunto de Instruções de Departamentos e Cursos")
+print("--" * 60)
+
 for x in range(10):
     cria_departamentos_cursos_sql()
-    print("--" * 60)
-    print("--" * 60)
     
 for y in range(10):
     print("--" * 60)
