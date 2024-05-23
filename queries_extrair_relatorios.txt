@@ -1,30 +1,26 @@
 1)
-select id_disciplina, nome, semestre, ano, media from historico_aluno H
-inner join disciplina D
-where H.id_disciplina = D.id_disciplina and H.RA = <<RA do aluno>> 
+select D.id_disciplina, D.nome, H.semestre, H.ano, H.media from historico_aluno H
+inner join disciplina D on H.id_disciplina = D.id_disciplina 
+where H.RA = <<RA do aluno>> 
 
 2)
-select id_disciplina, nome, semestre, ano from historico_professor H
-inner join disciplina D
-where H.id_disciplina = D.id_disciplina and H.id = <<id do professor>>
+select D.id_disciplina, D.nome, H.semestre, H.ano 
+from historico_professor H
+inner join disciplina D on H.id_disciplina = D.id_disciplina 
+where H.id = <<id do professor>>
 
 3)
 select * from aluno A
 inner join curso C
-where A.creditos_totais = C.creditos 
-
-group by 
-
+on A.creditos_totais = C.creditos and A.id_curso = C.id_curso
 inner join historico_aluno H
-where semestre = <semestre>
+on H.semestre = <<semestre>> and H.ra = A.ra
 
 4)
 select id, nome, dept_nome from professor
-where eh_chefe = true
+where eh_chefe = True
 
 5)
 select RA, nome, id as id_professor from aluno A
 inner join grupo_tcc G
-where A.tcc_id = G.tcc_id 
- 
-
+on A.tcc_id = G.tcc_id 
