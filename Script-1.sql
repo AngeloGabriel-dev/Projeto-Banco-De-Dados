@@ -19,6 +19,19 @@ CREATE TABLE grupo_tcc(
   foreign key (id) references professor(id)
 );
 
+CREATE TABLE curso(
+  id_curso varchar(8) not null primary key,
+  dept_nome varchar(50),
+  titulo varchar(50),
+  creditos numeric(2),
+  foreign key (dept_nome) references departamento(dept_nome)
+);
+
+CREATE TABLE disciplina(
+  id_disciplina varchar(8) not null primary key,
+  nome varchar(20)
+);
+
 CREATE TABLE aluno(
   RA varchar(10) not null primary key,
   id_curso varchar(8),
@@ -56,23 +69,9 @@ CREATE TABLE historico_professor(
   foreign key (id) references professor(id)
 );
 
-CREATE TABLE curso(
-  id_curso varchar(8) not null primary key,
-  dept_nome varchar(50),
-  titulo varchar(50),
-  creditos numeric(2),
-  foreign key (dept_nome) references departamento(dept_nome)
-);
-
-CREATE TABLE disciplina(
-  id_disciplina varchar(8) not null primary key,
-  nome varchar(20)
-);
-
 CREATE TABLE matriz_curricular(
   id_curso varchar(8),
   id_disciplina varchar(8),
   foreign key (id_curso) references curso(id_curso),
   foreign key (id_disciplina) references disciplina(id_disciplina)
 );
-
